@@ -13,7 +13,6 @@
                 </div>
             </div>
 
-            <!-- Menampilkan pesan sukses atau error -->
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -22,21 +21,19 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
-            <!-- Form untuk Update Profil -->
+            <!-- Form Update Profile -->
             <form action="{{ route('profile.update') }}" method="POST" class="mb-3 p-3 rounded"
                 style="background-color: #f8f9fa;">
                 @csrf
                 @method('PUT')
 
                 <div class="row">
-                    <!-- Nama -->
                     <div class="col">
                         <label for="name" class="small mb-1">Nama</label>
                         <input type="text" class="form-control form-control-sm" id="name" name="name"
                             value="{{ old('name', $user->name) }}" required>
                     </div>
 
-                    <!-- Email -->
                     <div class="col">
                         <label for="email" class="small mb-1">Email</label>
                         <input type="email" class="form-control form-control-sm" id="email" name="email"
@@ -51,36 +48,32 @@
 
             <hr>
 
-            <!-- Form untuk Update Password -->
-            <form action="{{ route('profile.password.update') }}" method="POST" class="mb-3 p-3 rounded"
-                style="background-color: #f8f9fa;">
+            <!-- Form Update Password -->
+            <form method="POST" action="{{ route('profile.password.update') }}" class="mt-6 space-y-6">
                 @csrf
-                @method('PUT')
+                @method('put')
 
-                <!-- Password Lama -->
                 <div class="form-group">
                     <label for="current_password" class="small mb-1">Password Lama</label>
-                    <input type="password" class="form-control form-control-sm" id="current_password"
-                        name="current_password" required>
+                    <input type="password" name="current_password" class="form-control" required>
+                    @error('current_password') <div class="text-red-500">{{ $message }}</div> @enderror
                 </div>
 
-                <!-- Password Baru -->
                 <div class="form-group">
                     <label for="password" class="small mb-1">Password Baru</label>
-                    <input type="password" class="form-control form-control-sm" id="password" name="password" required>
+                    <input type="password" name="password" class="form-control" required>
+                    @error('password') <div class="text-red-500">{{ $message }}</div> @enderror
                 </div>
 
-                <!-- Konfirmasi Password Baru -->
                 <div class="form-group">
                     <label for="password_confirmation" class="small mb-1">Konfirmasi Password Baru</label>
-                    <input type="password" class="form-control form-control-sm" id="password_confirmation"
-                        name="password_confirmation" required>
+                    <input type="password" name="password_confirmation" class="form-control" required>
+                    @error('password_confirmation') <div class="text-red-500">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-sm btn-warning">Update Password</button>
-                </div>
+                <button type="submit" class="btn btn-warning">Update Password</button>
             </form>
+
 
         </div>
     </div>
