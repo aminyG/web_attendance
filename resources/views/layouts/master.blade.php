@@ -18,14 +18,13 @@
 	@include('layouts.partials.header')
 	<!-- [ Header ] end -->
 
-
-	@if (session()->has('impersonate'))
-		<div class="alert alert-info">
+	@if (session()->has('impersonate') && !str_starts_with(request()->path(), 'superadmin'))
+		<div class="alert alert-warning mt-3">
 			Anda sedang masuk sebagai Admin: {{ auth()->user()->name }}
-			<a href="{{ route('superadmin.impersonate.stop') }}">Kembali ke Superadmin</a>
+			<a href="{{ route('superadmin.impersonate.stop') }}" class="btn btn-outline-dark btn-sm">Kembali ke
+				Superadmin</a>
 		</div>
 	@endif
-
 	<!-- [ Main Content ] start -->
 	@yield('content')
 	@include('layouts.partials.ext-js')

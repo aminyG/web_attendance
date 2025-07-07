@@ -1,16 +1,16 @@
 {{-- Required Js --> --}}
-<script src="assets/js/vendor-all.min.js"></script>
+<script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 {{--
 <script src="assets/js/plugins/bootstrap.min.js"></script> --}}
-<script src="assets/js/ripple.js"></script>
-<script src="assets/js/pcoded.min.js"></script>
+<script src="{{ asset('assets/js/ripple.js') }}"></script>
+<script src="{{ asset('assets/js/pcoded.min.js')}}"></script>
 
 <!-- Apex Chart -->
-<script src="assets/js/plugins/apexcharts.min.js"></script>
+<script src="{{ asset('assets/js/plugins/apexcharts.min.js')}}"></script>
 
 
 <!-- custom-chart js -->
-<script src="assets/js/pages/dashboard-main.js"></script>
+<script src="{{ asset('assets/js/pages/dashboard-main.js')}}"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -20,9 +20,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
 <!-- Bootstrap JS -->
-<script src="assets/js/plugins/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/plugins/bootstrap.min.js')}}"></script>
 
 <!-- Ripple JS (optional) -->
-<script src="assets/js/ripple.js"></script>
+<script src="{{ asset('assets/js/ripple.js')}}"></script>
 
 @stack('scripts')

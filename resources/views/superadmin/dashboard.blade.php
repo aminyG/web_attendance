@@ -14,7 +14,7 @@
             </div>
 
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success" style="white-space: pre-wrap;">
                     {{ session('success') }}
                 </div>
             @endif
@@ -43,7 +43,8 @@
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->created_at->format('d M Y') }}</td>
                                     <td>
-                                        <a href="{{ route('superadmin.impersonate.start', $admin->id) }}" class="btn btn-info btn-sm">
+                                        <a href="{{ route('superadmin.impersonate.start', $admin->id) }}"
+                                            class="btn btn-info btn-sm">
                                             Masuk sebagai Admin
                                         </a>
                                     </td>
@@ -61,7 +62,8 @@
             @if (session()->has('impersonate'))
                 <div class="alert alert-warning mt-3">
                     Anda sedang masuk sebagai Admin: {{ auth()->user()->name }}
-                    <a href="{{ route('superadmin.impersonate.stop') }}" class="btn btn-outline-dark btn-sm">Kembali ke Superadmin</a>
+                    <a href="{{ route('superadmin.impersonate.stop') }}" class="btn btn-outline-dark btn-sm">Kembali ke
+                        Superadmin</a>
                 </div>
             @endif
         </div>

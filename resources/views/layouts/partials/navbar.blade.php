@@ -28,36 +28,48 @@
                 <li class="nav-item pcoded-menu-caption">
                     <label>Navigation</label>
                 </li>
+
                 <li class="nav-item">
-                    <a href="{{ url('/') }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('employee.index')  }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-user"></i></span><span class="pcoded-mtext">Karyawan</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('attendance.index') }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-calendar"></i></span><span class="pcoded-mtext">Absensi</span></a>
-                </li>
-                <li class="nav-item pcoded-menu-caption">
-                    <label>SETTINGS</label>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('categories.attendanceSettings') }}" class="nav-link "><span
-                            class="pcoded-micon"><i class="feather icon-layers"></i></span><span
-                            class="pcoded-mtext">Kategori
-                            Karyawan</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('schedule.index') }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-grid"></i></span><span class="pcoded-mtext">Jadwal</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('locations.index') }}" class="nav-link "><span class="pcoded-micon"><i
-                                class="feather icon-map-pin"></i></span><span class="pcoded-mtext">Lokasi</span></a>
+                    @if(auth()->user()?->hasRole('super-admin'))
+                        {{-- SUPERADMIN NAV --}}
+                        <a href="{{ route('superadmin.dashboard') }}" class="nav-link ">
+                            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                            <span class="pcoded-mtext">Dashboard</span>
+                        </a>
+                    @else
+                            {{-- ADMIN NAV --}}
+                            <a href="{{ url('/') }}" class="nav-link ">
+                                <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                                <span class="pcoded-mtext">Dashboard</span>
+                            </a>
+                            <a href="{{route('employee.index')}}" class="nav-link ">
+                                <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                                <span class="pcoded-mtext">Karyawan</span>
+                            </a>
+                            <a href="{{route('attendance.index')}}" class="nav-link ">
+                                <span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
+                                <span class="pcoded-mtext">Absensi</span>
+                            </a>
+
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>SETTINGS</label>
+                        </li>
+                        <a href="{{ route('categories.attendanceSettings') }}" class="nav-link ">
+                            <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                            <span class="pcoded-mtext">Kategori Karyawan</span>
+                        </a>
+                        <a href="{{ route('schedule.index') }}" class="nav-link ">
+                            <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
+                            <span class="pcoded-mtext">Jadwal</span>
+                        </a>
+                        <a href="{{ route('locations.index') }}" class="nav-link ">
+                            <span class="pcoded-micon"><i class="feather icon-map-pin"></i></span>
+                            <span class="pcoded-mtext">Lokasi</span>
+                        </a>
+                    @endif
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>

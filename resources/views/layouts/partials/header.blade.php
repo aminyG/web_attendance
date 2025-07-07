@@ -6,7 +6,7 @@
         <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
         <a href="#!" class="b-brand">
             <!-- ========   change your logo hear   ============ -->
-            <img src="assets/images/logo.png" alt="" class="logo">
+            <img src="{{ asset('assets/images/logo.png')}}" alt="" class="logo">
             {{-- <img src="assets/images/logo-icon.png" alt="" class="logo-thumb"> --}}
         </a>
         <a href="#!" class="mob-toggler">
@@ -33,7 +33,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-notification">
                         <div class="pro-head">
-                            <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
+                            <img src="{{ asset('assets/images/user/avatar-1.jpg')}}" class="img-radius"
+                                alt="User-Profile-Image">
                             <span>John Doe</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf

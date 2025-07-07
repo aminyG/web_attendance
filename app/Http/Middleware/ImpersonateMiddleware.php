@@ -16,10 +16,15 @@ class ImpersonateMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (session()->has('impersonate')) {
-            $impersonateUserId = session('impersonate');
-            Auth::onceUsingId($impersonateUserId);
-        }
+        // if (session()->has('impersonate')) {
+        //     $impersonateUserId = session('impersonate');
+        //     Auth::onceUsingId($impersonateUserId);
+        // }
+        if (!str_starts_with($request->path(), 'superadmin') && session()->has('impersonate')) {
+        $impersonateUserId = session('impersonate');
+        Auth::onceUsingId($impersonateUserId);
+    }
+    
 
         return $next($request);
     }

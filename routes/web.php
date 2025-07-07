@@ -9,11 +9,13 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SuperAdminDashboardController;
 use App\Http\Controllers\AdminManagementController;
+use Illuminate\Support\Facades\Auth;
 
 // Home: redirect ke login
 Route::get('/', function () {
     return redirect()->route('login');
 });
+// Auth::routes();
 
 // SUPERADMIN ONLY
 Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(function () {

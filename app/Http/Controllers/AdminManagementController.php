@@ -18,25 +18,30 @@ class AdminManagementController extends Controller
 
 public function store(Request $request)
 {
+    // 1️⃣ Validasi input
     $validated = $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
+        'name'  => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
     ]);
 
-    $password = Str::random(8);
+    // 2️⃣ Generate password random
+    $passwordPlain = Str::random(10);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => Hash::make($password),
+    // 3️⃣ Simpan ke database (hash)
+    $user = \App\Models\User::create([
+        'name'     => $validated['name'],
+        'email'    => $validated['email'],
+        'password' => Hash::make($passwordPlain),
     ]);
 
+    // 4️⃣ Assign Role
     $user->assignRole('admin');
 
-    // Kirim email ke admin baru
-    Mail::to($user->email)->send(new NewAdminMail($user, $password));
+    // 5️⃣ Kirim Email
+    Mail::to($user->email)->send(new NewAdminMail($user, $passwordPlain));
 
-    return redirect()->route('superadmin.dashboard')->with('success', 'Admin berhasil dibuat!');
+    // 6️⃣ Redirect dengan flash message
+    return redirect()->route('superadmin.dashboard')
+        ->with('success', "Admin berhasil dibuat.\nEmail: {$validated['email']}\nPassword: {$passwordPlain}\n(PASSWORD JUGA DIKIRIM KE EMAIL ADMIN)");
 }
-
 }
