@@ -33,9 +33,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-notification">
                         <div class="pro-head">
-                            <img src="{{ asset('assets/images/user/avatar-1.jpg')}}" class="img-radius"
+                            <img src="{{ asset('assets/images/user/avatar.jpg')}}" class="img-radius"
                                 alt="User-Profile-Image">
-                            <span>John Doe</span>
+                            <span>{{ auth()->user()->name }}</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
