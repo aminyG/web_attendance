@@ -19,6 +19,12 @@
 	<!-- [ Header ] end -->
 
 
+	@if (session()->has('impersonate'))
+		<div class="alert alert-info">
+			Anda sedang masuk sebagai Admin: {{ auth()->user()->name }}
+			<a href="{{ route('superadmin.impersonate.stop') }}">Kembali ke Superadmin</a>
+		</div>
+	@endif
 
 	<!-- [ Main Content ] start -->
 	@yield('content')

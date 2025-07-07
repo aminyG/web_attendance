@@ -27,6 +27,8 @@ class Kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \App\Http\Middleware\ImpersonateMiddleware::class,
+
     ];
 
     /**
@@ -41,6 +43,11 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Routing\Middleware\ValidateSignature::class,
+            \Illuminate\Http\Middleware\SetCacheHeaders::class,
+            \Illuminate\Http\Middleware\HandleCors::class,
+            // \App\Http\Middleware\ImpersonateMiddleware::class,
         ],
 
         'api' => [
