@@ -34,13 +34,13 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     })->name('superadmin.impersonate.start');
 
     Route::get('/impersonate/stop', function () {
-        session()->forget('impersonate');
+        session()->forget(['impersonate', 'impersonating']);
         return redirect()->route('superadmin.dashboard');
     })->name('superadmin.impersonate.stop');
 });
 
 // ADMIN ONLY
-Route::middleware(['auth', 'role:admin'])->group(function () {
+// Route::middleware(['auth', 'role:admin'])->group(function () {
     // Admin dashboard
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -76,7 +76,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/locations/{location}/set-active', [LocationController::class, 'setActive'])->name('locations.setActive');
     Route::get('/locations/{location}/edit', [LocationController::class, 'edit'])->name('locations.edit');
     Route::put('/locations/{location}', [LocationController::class, 'update'])->name('locations.update');
-});
+// });
 
 // AUTH Routes
 require __DIR__ . '/auth.php';

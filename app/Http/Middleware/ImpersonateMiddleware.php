@@ -16,15 +16,20 @@ class ImpersonateMiddleware
      */
     public function handle($request, Closure $next)
     {
-        // if (session()->has('impersonate')) {
-        //     $impersonateUserId = session('impersonate');
-        //     Auth::onceUsingId($impersonateUserId);
-        // }
-        if (!str_starts_with($request->path(), 'superadmin') && session()->has('impersonate')) {
-        $impersonateUserId = session('impersonate');
-        Auth::onceUsingId($impersonateUserId);
-    }
-    
+        // Check if the user is impersonating
+        if (session()->has('impersonate')) {
+            // Get the impersonated user
+            $impersonateUserId = session('impersonate');
+            
+            // Log in as the impersonated user for the current request
+            $impersonatedUser = \App\Models\User::find($impersonateUserId);
+            
+            // Temporarily use the impersonated user's roles
+            Auth::onceUsingId($impersonatedUser->id);
+
+            // Optionally set a flag that indicates the user is impersonating
+            session()->put('impersonating', true);
+        }
 
         return $next($request);
     }
