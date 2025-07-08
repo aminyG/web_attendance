@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmployeeImport;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -108,14 +109,16 @@ class EmployeeController extends Controller
     public function storeMass(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,csv|max:10240',
+            'file' => 'required|file|mimes:xlsx,csv|max:10240',  // Validasi file Excel
         ]);
 
         try {
+            // Mengimpor data menggunakan Laravel Excel
             Excel::import(new EmployeeImport, $request->file('file'));
-            return redirect()->route('employee.index')->with('success', 'Data berhasil diimport.');
+
+            return redirect()->route('employee.index')->with('success', 'Data berhasil diimpor.');
         } catch (\Exception $e) {
-            // Tangkap error dan tampilkan untuk debug
+            // Tangkap error dan tampilkan pesan kesalahan
             return back()->with('error', 'Import gagal: ' . $e->getMessage());
         }
     }
@@ -147,5 +150,22 @@ class EmployeeController extends Controller
 
         return redirect()->route('employee.index')->with('success', 'Data karyawan berhasil diperbarui.');
     }
+    public function destroy($id)
+{
+    // Mencari employee berdasarkan ID
+    $employee = Employee::findOrFail($id);
+
+    // Menghapus foto dari storage jika ada
+    if ($employee->photo) {
+        Storage::disk('public')->delete($employee->photo);
+    }
+
+    // Menghapus data karyawan
+    $employee->delete();
+
+    // Redirect kembali dengan pesan sukses
+    return redirect()->route('employee.index')->with('success', 'Data karyawan berhasil dihapus.');
+}
+
 
 }

@@ -105,7 +105,7 @@
                                     data-target="#modalDetailEmployee"
                                     data-id="{{ $emp->id }}"
                                     data-name="{{ $emp->name }}"
-                                    data-category="{{ $emp->category }}"
+                                  data-category="{{ $emp->category->name ?? '' }}"
                                     data-phone="{{ $emp->phone }}"
                                     data-address="{{ $emp->address }}"
                                     data-dob="{{ $emp->dob }}"
@@ -122,7 +122,7 @@
                                     data-target="#modalEditEmployee"
                                     data-id="{{ $emp->id }}"
                                     data-name="{{ $emp->name }}"
-                                    data-category="{{ $emp->category }}"
+                                    data-category="{{ $emp->category->name ?? '' }}"
                                     data-phone="{{ $emp->phone }}"
                                     data-address="{{ $emp->address }}"
                                     data-dob="{{ $emp->dob }}"
@@ -392,7 +392,7 @@
                 // console.log('DETAIL BUTTON CLICKED');
                 // console.log($(this).data());
                 $('#detail_name').text($(this).data('name'));
-                $('#detail_category').text($(this).data('category'));
+                $('#detail_category').text($(this).data('category') ?? '-');
                 $('#detail_dob').text($(this).data('dob'));
                 $('#detail_email').text($(this).data('email'));
                 $('#detail_phone').text($(this).data('phone'));
@@ -408,7 +408,7 @@
             $('.btn-edit').click(function () {
                 $('#edit_id').val($(this).data('id'));
                 $('#edit_name').val($(this).data('name'));
-                $('#edit_category').val($(this).data('category'));
+                $('#edit_category').val($(this).data('category') ?? '');
                 $('#edit_dob').val($(this).data('dob'));
                 $('#edit_email').val($(this).data('email'));
                 $('#edit_phone').val($(this).data('phone'));

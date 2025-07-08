@@ -52,8 +52,8 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     Route::post('/karyawan/store', [EmployeeController::class, 'storeIndividual'])->name('employee.store');
     Route::get('/karyawan/create-mass', [EmployeeController::class, 'createMass'])->name('employee.createMass');
     Route::post('/karyawan/store-mass', [EmployeeController::class, 'storeMass'])->name('employee.storeMass');
-    Route::post('/employee/individual', [EmployeeController::class, 'storeIndividual'])->name('employee.store.individual');
-    Route::delete('/employee/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+    Route::post('/karyawan/individual', [EmployeeController::class, 'storeIndividual'])->name('employee.store.individual');
+    Route::delete('/karyawan/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     Route::put('/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');
 
     // Attendance
