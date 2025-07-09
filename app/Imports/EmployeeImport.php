@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeImport implements ToModel, WithHeadingRow
 {
@@ -32,7 +33,8 @@ class EmployeeImport implements ToModel, WithHeadingRow
             'phone' => (string) $row['phone'],
             'email' => $row['email'],
             'employee_number' => $row['employee_number'],
-            'photo' => $photoPath,  // Menyimpan path foto lokal
+            'photo' => $photoPath,
+            'password' => Hash::make('123456')
         ]);
     }
 

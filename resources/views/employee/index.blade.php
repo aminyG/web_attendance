@@ -19,28 +19,6 @@
                     </div>
                 </div>
 
-                {{-- <div class="mb-3 text-right">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="tambahKaryawanDropdown"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #3B6790; color: #fff;">
-                            Tambah Karyawan
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="tambahKaryawanDropdown">
-                            <!-- Ubah link ke tombol yang buka modal tambah -->
-                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeIndividu">Tambah
-                                secara individu</a>
-                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeBulk">Tambah
-                                secara massal</a>
-                        </div>
-                    </div>
-                </div>
-
-                <form method="GET" action="{{ route('employee.index') }}" class="form-inline mb-3">
-                    <input type="text" name="name" class="form-control mr-2" placeholder="Cari nama..." value="{{ request('name') }}">
-                    <input type="text" name="category" class="form-control mr-2" placeholder="Cari kategori..." value="{{ request('category') }}">
-                    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
-                    <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary ml-2">Reset</a>
-                </form> --}}
             @if ($errors->any())
                 <div class="alert alert-danger mb-3">
                     <ul class="mb-0">
@@ -50,6 +28,7 @@
                     </ul>
                 </div>
             @endif
+            
 <div class="mb-3 p-3 rounded" style="background-color: #f8f9fa; margin-top: 15px;">
     <div class="row align-items-end">
         <div class="col">

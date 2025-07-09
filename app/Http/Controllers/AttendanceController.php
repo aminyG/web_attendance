@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Category;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Http;
 
 class AttendanceController extends Controller
 {
@@ -57,7 +58,41 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    // Validate attendance data
+    $validated = $request->validate([
+        'employee_id' => 'required|exists:employees,id',
+        'location' => 'required|string',
+        'time' => 'required|date',
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Face image for verification
+    ]);
+
+    // Convert face image to base64 for verification
+    $faceImage = base64_encode(file_get_contents($request->file('photo')));
+
+    // Verify the face using the Presence API
+    $response = Http::post('https://presence.guestallow.com/api/face/verifyFace', [
+        'face_image' => $faceImage,
+    ]);
+
+    // Check if face verification is successful
+    if ($response->successful()) {
+        // Face verification successful, proceed with recording attendance
+        $attendance = new Attendance([
+            'employee_id' => $validated['employee_id'],
+            'location' => $validated['location'],
+            'time' => $validated['time'],
+        ]);
+
+        if ($attendance->save()) {
+            return response()->json(['message' => 'Attendance recorded successfully!']);
+        } else {
+            return response()->json(['error' => 'Failed to record attendance.'], 500);
+        }
+    } else {
+        // If face verification fails
+        return response()->json(['error' => 'Face verification failed.'], 400);
+    }
+
     }
 
     /**

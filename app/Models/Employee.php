@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Employee extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'category_id', 'dob', 'address', 'phone', 'email', 'employee_number', 'photo', 'password'];
 
-    protected $fillable = ['name', 'category_id', 'dob', 'address', 'phone', 'email', 'employee_number', 'photo'];
 
     public function attendances()
     {
@@ -19,8 +19,4 @@ class Employee extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    // public function getPhotoUrlAttribute()
-    // {
-    //     return $this->photo ? asset('storage/' . $this->photo) : null;
-    // }
 }

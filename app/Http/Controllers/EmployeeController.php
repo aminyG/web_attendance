@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmployeeImport;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -59,10 +61,14 @@ class EmployeeController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         Log::info('Validated:', $validated);
+
+        // Admin sets the default password
+        $validated['password'] = Hash::make('123456');  // Default password (hashed)
+
         // Buat category baru kalau belum ada
         $category = Category::firstOrCreate(['name' => $validated['category']]);
-
         unset($validated['category']); // jangan disimpan sebagai kolom string
+        
         Log::info('Category:', $category->toArray());
 
         if ($request->hasFile('photo')) {
@@ -79,43 +85,33 @@ class EmployeeController extends Controller
         } else {
             Log::error('Employee Save Failed');
         }
+
+        // Now, register the employee in Presence API
+        $this->registerEmployeeInPresenceAPI($employee);
+        
+        // Register face for the employee in Presence API
+        // $this->registerFaceForEmployee($employee);
+        
         return redirect()->route('employee.index')->with('success', 'Karyawan berhasil ditambahkan.');
     }
     public function createMass()
     {
         return view('employee.create_mass');
     }
-
-    //     public function storeMass(Request $request)
-//     {
-//         $request->validate([
-//             'file' => 'required|file|mimes:xlsx,csv|max:10240',
-//         ]);
-
-    //         try {
-//             Excel::import(new EmployeeImport, $request->file('file'));
-//             return redirect()->route('employee.index')->with('success', 'Data berhasil diimport.');
-//         } catch (\Exception $e) {
-//             return redirect()->back()->withErrors(['file' => 'Gagal mengimport data: ' . $e->getMessage()]);
-//         }
-//     }
-//     public function destroy($id)
-// {
-//     $employee = Employee::findOrFail($id);
-//     $employee->delete();
-
-    //     return redirect()->route('employee.index')->with('success', 'Data karyawan berhasil dihapus.');
-// }
     public function storeMass(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,csv|max:10240',  // Validasi file Excel
+            'file' => 'required|file|mimes:xlsx,csv|max:10240',
         ]);
 
         try {
             // Mengimpor data menggunakan Laravel Excel
             Excel::import(new EmployeeImport, $request->file('file'));
 
+            foreach (Employee::all() as $employee) {
+                $this->registerEmployeeInPresenceAPI($employee);
+        }
+        
             return redirect()->route('employee.index')->with('success', 'Data berhasil diimpor.');
         } catch (\Exception $e) {
             // Tangkap error dan tampilkan pesan kesalahan
@@ -167,5 +163,45 @@ class EmployeeController extends Controller
     return redirect()->route('employee.index')->with('success', 'Data karyawan berhasil dihapus.');
 }
 
+    public function registerFaceForEmployee($employee)
+    {
+        try {
+            // Get the photo path
+            $photoPath = Storage::disk('public')->get($employee->photo);
 
+            // Send the photo for face registration
+            $response = Http::post('https://presence.guestallow.com/api/users/face', [
+                'user_id' => $employee->id,
+                'photo' => base64_encode($photoPath), // Base64 encode the photo
+            ]);
+
+            if ($response->successful()) {
+                Log::info('Face Registered Successfully:', $response->json());
+            } else {
+                Log::error('Failed to Register Face:', $response->json());
+            }
+        } catch (\Exception $e) {
+            Log::error('Face Registration Error:', ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function registerEmployeeInPresenceAPI($employee)
+    {
+        try {
+            $response = Http::post('http://presence.guestallow.com/api/auth/register', [
+                'name' => $employee->name,
+                'email' => $employee->email,
+                'password' => '123456',  // Default password
+                'password_confirmation' => '123456',  // Confirm the password
+            ]);
+
+            if ($response->successful()) {
+                Log::info('Employee Registered in Presence API:', $response->json());
+            } else {
+                Log::error('Failed to Register Employee in Presence API:', $response->json());
+            }
+        } catch (\Exception $e) {
+            Log::error('Error registering employee in Presence API:', ['message' => $e->getMessage()]);
+        }
+    }
 }
