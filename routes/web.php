@@ -26,6 +26,8 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/admins/create', [AdminManagementController::class, 'create'])->name('superadmin.admins.create');
     Route::post('/admins', [AdminManagementController::class, 'store'])->name('superadmin.admins.store');
+    Route::delete('/admins/{user}', [AdminManagementController::class, 'destroy'])->name('superadmin.admins.destroy');
+
 
     // Impersonate
     Route::get('/impersonate/{id}', function ($id) {

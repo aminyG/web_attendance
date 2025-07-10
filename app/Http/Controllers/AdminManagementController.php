@@ -44,4 +44,9 @@ public function store(Request $request)
     return redirect()->route('superadmin.dashboard')
         ->with('success', "Admin berhasil dibuat.\nEmail: {$validated['email']}\nPassword: {$passwordPlain}\n(PASSWORD JUGA DIKIRIM KE EMAIL ADMIN)");
 }
+public function destroy(User $user)
+{
+        $user->delete();
+        return redirect()->route('superadmin.dashboard')->with('success', 'Admin berhasil dihapus.');
+}
 }

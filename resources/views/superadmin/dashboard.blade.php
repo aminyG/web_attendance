@@ -43,10 +43,16 @@
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->created_at->format('d M Y') }}</td>
                                     <td>
-                                        <a href="{{ route('superadmin.impersonate.start', $admin->id) }}"
+                                        {{-- <a href="{{ route('superadmin.impersonate.start', $admin->id) }}"
                                             class="btn btn-info btn-sm">
                                             Masuk sebagai Admin
-                                        </a>
+                                        </a> --}}
+                                        <form action="{{ route('superadmin.admins.destroy', $admin->id) }}" method="POST"
+                                            class="d-inline" onsubmit="return confirm('Yakin mau menghapus admin ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty
