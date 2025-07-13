@@ -32,38 +32,6 @@ public function index()
 
         return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan.');
     }
-
-// public function storeAll(Request $request)
-// {
-//     // Validasi input
-//     $validated = $request->validate([
-//         'name' => 'required|string|max:255',
-//         'start_time' => 'required|date_format:H:i',
-//         'end_time' => 'required|date_format:H:i',
-//         'order' => 'nullable|integer',
-//     ]);
-
-//     // Cek jika ada jadwal global, hapus jika ada
-//     $existingSchedules = Schedule::whereNull('category_id')->get();
-//     if ($existingSchedules->count()) {
-//         $existingSchedules->each->delete();  // Hapus jadwal global yang lama
-//     }
-
-//     // Menyimpan jadwal global yang baru untuk semua kategori
-//     $categories = Category::all();
-//     foreach ($categories as $category) {
-//         Schedule::create([
-//             'category_id' => $category->id,
-//             'name' => $validated['name'],
-//             'start_time' => $validated['start_time'],
-//             'end_time' => $validated['end_time'],
-//             'order' => $validated['order'] ?? 0,
-//         ]);
-//     }
-
-//     // Kembali ke halaman dengan pesan sukses
-//     return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan ke semua kategori.');
-// }
 public function storeAll(Request $request)
 {
     $validated = $request->validate([
@@ -84,10 +52,9 @@ public function storeAll(Request $request)
             'order' => $validated['order'] ?? 0,
         ]);
     }
-
-    // Jadwal global (tidak terkait dengan kategori tertentu) dengan category_id null
+    
     Schedule::create([
-        'category_id' => null,  // Tidak ada kategori untuk jadwal global
+        'category_id' => null, 
         'name' => $validated['name'],
         'start_time' => $validated['start_time'],
         'end_time' => $validated['end_time'],

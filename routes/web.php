@@ -60,6 +60,9 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
 
     // Attendance
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/{id}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+
 
     // Categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');

@@ -77,7 +77,14 @@
                                 <td>{{ $attendance->employee->category->name ?? '-' }}</td>
                                 <td>{{ $attendance->schedule->name ?? '-' }}</td>
                                 <td>{{ $attendance->time }}</td>
-                                <td>{{ $attendance->status }}</td>
+                                <td>
+                                    <span class="badge badge-secondary">{{ $attendance->status }}</span>
+                                    
+                                    {{-- Tombol Edit --}}
+                                    <a href="{{ route('attendance.edit', $attendance->id) }}" class="btn btn-sm btn-warning ml-2">
+                                        Edit
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

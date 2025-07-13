@@ -10,9 +10,8 @@ class Attendance extends Model
     {
         return $this->belongsTo(Employee::class);
     }
-    protected $fillable = ['employee_id', 'date', 'status'];
+    protected $fillable = ['employee_id', 'schedule_id', 'date', 'time', 'status'];
 
-    // Tambahkan metode untuk mendapatkan status dalam format yang lebih mudah dibaca
     public function getStatusLabelAttribute()
     {
         return match ($this->status) {

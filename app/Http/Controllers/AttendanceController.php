@@ -106,19 +106,29 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $attendance = Attendance::with('employee')->findOrFail($id);
+        return view('attendance.edit', compact('attendance'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $attendance = Attendance::findOrFail($id);
 
+        $validated = $request->validate([
+            'status' => 'required|in:Hadir,Terlambat,Izin,Sakit,Alpha',
+        ]);
+
+        $attendance->status = $validated['status'];
+        $attendance->save();
+
+        return redirect()->route('attendance.index')->with('success', 'Attendance updated!');
+    }
     /**
      * Remove the specified resource from storage.
      */

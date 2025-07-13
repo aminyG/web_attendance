@@ -5,7 +5,6 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Http\Request;
 use Spatie\Permission\Middleware\RoleMiddleware;
-// use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
