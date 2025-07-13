@@ -89,7 +89,7 @@
                                                     onsubmit="return confirm('Yakin hapus jadwal ini?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>

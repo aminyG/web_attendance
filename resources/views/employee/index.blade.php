@@ -93,7 +93,7 @@
                                     {{-- data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}" --}}
                                     {{-- data-photo="{{ $emp->photo ?? '' }}"> --}}
                                     data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}">
-                                    Detail
+                                    <i class="fa fa-eye"></i> Detail
                                 </button>
 
                                 <!-- Tombol Edit -->
@@ -109,7 +109,7 @@
                                     data-employee_number="{{ $emp->employee_number }}"
                                     {{-- data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}" --}}
                                     data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}">
-                                    Edit
+                                    <i class="fa fa-edit"></i> Edit
                                 </button>
 
                                 <!-- Tombol Hapus -->
@@ -117,7 +117,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Yakin hapus data?')">Hapus</button>
+                                        onclick="return confirm('Yakin hapus data?')"><i class="fa fa-trash"></i> Hapus</button>
                                 </form>
                             </td>
                         </tr>

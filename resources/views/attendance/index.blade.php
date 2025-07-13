@@ -82,7 +82,7 @@
                                     
                                     {{-- Tombol Edit --}}
                                     <a href="{{ route('attendance.edit', $attendance->id) }}" class="btn btn-sm btn-warning ml-2">
-                                        Edit
+                                        <i class="fa fa-edit"></i> Edit
                                     </a>
                                 </td>
                             </tr>

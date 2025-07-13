@@ -44,17 +44,19 @@
                                 <form action="{{ route('locations.setActive', $location) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
-                                    <button class="btn btn-sm btn-success" {{ $location->is_active ? 'disabled' : '' }}>
+                                    <button class="btn btn-sm btn-success" {{ $location->is_active ? 'disabled' : '' }}><i
+                                            class="fa fa-check"></i>
                                         {{ $location->is_active ? 'Aktif' : 'Set Aktif' }}
                                     </button>
                                 </form>
-                                <a href="{{ route('locations.edit', $location) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('locations.edit', $location) }}" class="btn btn-sm btn-warning"><i
+                                        class="fa fa-edit"></i> Edit</a>
                                 <form action="{{ route('locations.destroy', $location) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Hapus lokasi ini?')">Hapus</button>
+                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus lokasi ini?')"><i
+                                            class="fa fa-trash"></i> Hapus</button>
                                 </form>
                             </td>
                         </tr>
