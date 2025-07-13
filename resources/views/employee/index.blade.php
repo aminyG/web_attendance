@@ -29,39 +29,38 @@
                 </div>
             @endif
             
-<div class="mb-3 p-3 rounded" style="background-color: #f8f9fa; margin-top: 15px;">
-    <div class="row align-items-end">
-        <div class="col">
-            <form method="GET" action="{{ route('employee.index') }}">
-                <div class="form-row">
-                    <div class="col mb-2">
-                        <input type="text" name="name" class="form-control form-control-sm" placeholder="Cari nama..." value="{{ request('name') }}">
-                    </div>
-                    <div class="col mb-2">
-                        <input type="text" name="category" class="form-control form-control-sm" placeholder="Cari kategori..." value="{{ request('category') }}">
-                    </div>
-                    <div class="col-auto mb-2">
-                        <button type="submit" class="btn btn-sm btn-primary">Filter</button>
-                        <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary">Reset</a>
+                <div class="mb-3 p-3 rounded" style="background-color: #f8f9fa; margin-top: 15px;">
+                    <div class="row align-items-end">
+                        <div class="col">
+                            <form method="GET" action="{{ route('employee.index') }}">
+                                <div class="form-row">
+                                    <div class="col mb-2">
+                                        <input type="text" name="name" class="form-control form-control-sm" placeholder="Cari nama..." value="{{ request('name') }}">
+                                    </div>
+                                    <div class="col mb-2">
+                                        <input type="text" name="category" class="form-control form-control-sm" placeholder="Cari kategori..." value="{{ request('category') }}">
+                                    </div>
+                                    <div class="col-auto mb-2">
+                                        <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                                        <a href="{{ route('employee.index') }}" class="btn btn-sm btn-secondary">Reset</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-auto mb-2">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="tambahKaryawanDropdown"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #3B6790; color: #fff;">
+                                    Tambah Karyawan
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="tambahKaryawanDropdown">
+                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeIndividu">Tambah secara individu</a>
+                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeBulk">Tambah secara massal</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-auto mb-2">
-            <div class="dropdown">
-                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="tambahKaryawanDropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #3B6790; color: #fff;">
-                    Tambah Karyawan
-                </button>
-                <div class="dropdown-menu" aria-labelledby="tambahKaryawanDropdown">
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeIndividu">Tambah secara individu</a>
-                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modalAddEmployeeBulk">Tambah secara massal</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -89,10 +88,10 @@
                                     data-address="{{ $emp->address }}"
                                     data-dob="{{ $emp->dob }}"
                                     data-email="{{ $emp->email }}"
-                                    data-employee_number="{{ $emp->employee_number }}"
+                                    data-employee_number="{{ $emp->employee_number }}">
                                     {{-- data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}" --}}
                                     {{-- data-photo="{{ $emp->photo ?? '' }}"> --}}
-                                    data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}">
+                                    {{-- data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}"> --}}
                                     <i class="fa fa-eye"></i> Detail
                                 </button>
 
@@ -106,9 +105,9 @@
                                     data-address="{{ $emp->address }}"
                                     data-dob="{{ $emp->dob }}"
                                     data-email="{{ $emp->email }}"
-                                    data-employee_number="{{ $emp->employee_number }}"
+                                    data-employee_number="{{ $emp->employee_number }}">
                                     {{-- data-photo="{{ $emp->photo ? asset('storage/' . $emp->photo) : '' }}" --}}
-                                    data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}">
+                                    {{-- data-photo="{{ Str::startsWith($emp->photo, 'http') ? $emp->photo : asset('storage/' . $emp->photo) }}"> --}}
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
 
@@ -132,7 +131,7 @@
     <div class="modal fade" id="modalAddEmployeeIndividu" tabindex="-1" role="dialog"
         aria-labelledby="modalAddEmployeeLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 600px;">
-            <form method="POST" action="{{ route('employee.store.individual') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('employee.store.individual') }}">
                 @csrf
                 <div class="modal-content rounded-3 shadow-sm">
                     <div class="modal-header bg-light border-bottom-0">
@@ -208,12 +207,12 @@
                                 value="{{ old('employee_number') }}" required>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="add_photo_individual" class="font-weight-semibold">
                                 <i class="fa fa-camera mr-2"></i>Foto
                             </label>
                             <input type="file" class="form-control-file" id="add_photo_individual" name="photo" accept="image/*">
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer border-top-0 px-4 py-2 justify-content-end">
@@ -228,7 +227,7 @@
         <div class="modal fade" id="modalAddEmployeeBulk" tabindex="-1" role="dialog" aria-labelledby="modalAddEmployeeLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 600px;">
-                <form method="POST" action="{{ route('employee.storeMass') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('employee.storeMass') }}">
                     @csrf
                     <div class="modal-content rounded-3 shadow-sm">
                         <div class="modal-header bg-light border-bottom-0">
@@ -286,7 +285,7 @@
                     <p><strong>Nomor Telepon:</strong> <span id="detail_phone"></span></p>
                     <p><strong>Email:</strong> <span id="detail_email"></span></p>
                     <p><strong>Nomor Pegawai:</strong> <span id="detail_employee_number"></span></p>
-                    <p><strong>Foto:</strong> <span id="detail_photo"></span></p>
+                    {{-- <p><strong>Foto:</strong> <span id="detail_photo"></span></p> --}}
                 </div>
             </div>
         </div>
@@ -305,7 +304,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        </div>x
+                        </div>
                         <div class="modal-body">
                             <input type="hidden" id="edit_id" name="id">
                             <div class="form-group">
@@ -341,17 +340,14 @@
         <input type="file" class="form-control-file" id="edit_photo" name="photo" accept="image/*">
         <div id="current_photo_preview" class="mt-2"></div>
                         </div> --}}
-                        <div class="form-group">
-        <label for="edit_photo">Foto</label>
+                        {{-- <div class="form-group">
+                            <label for="edit_photo">Foto</label>
 
-        {{-- Preview foto lama --}}
-        <div id="current_photo_preview" class="mb-2">
-            {{-- Diisi lewat JS --}}
-        </div>
+                            <div id="current_photo_preview" class="mb-2">
+                            </div>
 
-        {{-- Input ubah foto --}}
-        <input type="file" class="form-control-file" id="edit_photo" name="photo" accept="image/*">
-    </div>
+                            <input type="file" class="form-control-file" id="edit_photo" name="photo" accept="image/*">
+                        </div> --}}
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -378,9 +374,9 @@
                 $('#detail_address').text($(this).data('address'));
                 $('#detail_employee_number').text($(this).data('employee_number'));
                 // $('#detail_photo').html($(this).data('photo') ? `<img src="${$(this).data('photo')}" class="img-fluid" width="150">` : 'Tidak ada foto');
-                $('#detail_photo').html($(this).data('photo') 
-        ? `<img src="${$(this).data('photo').includes('http') ? $(this).data('photo') : '/storage/' + $(this).data('photo')}" class="img-fluid" width="150">` 
-        : 'Tidak ada foto');
+        //         $('#detail_photo').html($(this).data('photo') 
+        // ? `<img src="${$(this).data('photo').includes('http') ? $(this).data('photo') : '/storage/' + $(this).data('photo')}" class="img-fluid" width="150">` 
+        // : 'Tidak ada foto');
             });
 
             // Modal EDIT
@@ -393,13 +389,13 @@
                 $('#edit_phone').val($(this).data('phone'));
                 $('#edit_address').val($(this).data('address'));
                 $('#edit_employee_number').val($(this).data('employee_number'));
-    const photoUrl = $(this).data('photo');
-    if (photoUrl) {
-        const src = photoUrl.includes('http') ? photoUrl : '/storage/' + photoUrl;
-        $('#current_photo_preview').html(`<img src="${src}" class="img-fluid mb-2" width="100">`);
-    } else {
-        $('#current_photo_preview').html('<em>Tidak ada foto</em>');
-    }
+    // const photoUrl = $(this).data('photo');
+    // if (photoUrl) {
+    //     const src = photoUrl.includes('http') ? photoUrl : '/storage/' + photoUrl;
+    //     $('#current_photo_preview').html(`<img src="${src}" class="img-fluid mb-2" width="100">`);
+    // } else {
+    //     $('#current_photo_preview').html('<em>Tidak ada foto</em>');
+    // }
                 // Set action form edit
                 var id = $(this).data('id');
                 $('#formEditEmployee').attr('action', '/employee/' + id);

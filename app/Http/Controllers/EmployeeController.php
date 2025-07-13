@@ -58,7 +58,7 @@ class EmployeeController extends Controller
             'phone' => 'required|string',
             'email' => 'required|email|unique:employees,email',
             'employee_number' => 'required|string|unique:employees,employee_number',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         Log::info('Validated:', $validated);
 
@@ -71,10 +71,10 @@ class EmployeeController extends Controller
         
         Log::info('Category:', $category->toArray());
 
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('photos', 'public');
-            Log::info('Photo path:', ['path' => $validated['photo']]);
-        }
+        // if ($request->hasFile('photo')) {
+        //     $validated['photo'] = $request->file('photo')->store('photos', 'public');
+        //     Log::info('Photo path:', ['path' => $validated['photo']]);
+        // }
 
         // Simpan employee
         $employee = new Employee($validated);
@@ -128,15 +128,15 @@ class EmployeeController extends Controller
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'employee_number' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $employee = Employee::findOrFail($id);
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('photos', 'public');
-            $validated['photo'] = $path;
-        }
+        // if ($request->hasFile('photo')) {
+        //     $path = $request->file('photo')->store('photos', 'public');
+        //     $validated['photo'] = $path;
+        // }
 
         $category = Category::firstOrCreate(['name' => $request->category]);
         $validated['category_id'] = $category->id;
@@ -151,10 +151,9 @@ class EmployeeController extends Controller
     // Mencari employee berdasarkan ID
     $employee = Employee::findOrFail($id);
 
-    // Menghapus foto dari storage jika ada
-    if ($employee->photo) {
-        Storage::disk('public')->delete($employee->photo);
-    }
+    // if ($employee->photo) {
+    //     Storage::disk('public')->delete($employee->photo);
+    // }
 
     // Menghapus data karyawan
     $employee->delete();
@@ -163,36 +162,14 @@ class EmployeeController extends Controller
     return redirect()->route('employee.index')->with('success', 'Data karyawan berhasil dihapus.');
 }
 
-    public function registerFaceForEmployee($employee)
-    {
-        try {
-            // Get the photo path
-            $photoPath = Storage::disk('public')->get($employee->photo);
-
-            // Send the photo for face registration
-            $response = Http::post('https://presence.guestallow.com/api/users/face', [
-                'user_id' => $employee->id,
-                'photo' => base64_encode($photoPath), // Base64 encode the photo
-            ]);
-
-            if ($response->successful()) {
-                Log::info('Face Registered Successfully:', $response->json());
-            } else {
-                Log::error('Failed to Register Face:', $response->json());
-            }
-        } catch (\Exception $e) {
-            Log::error('Face Registration Error:', ['message' => $e->getMessage()]);
-        }
-    }
-
     public function registerEmployeeInPresenceAPI($employee)
     {
         try {
             $response = Http::post('http://presence.guestallow.com/api/auth/register', [
                 'name' => $employee->name,
                 'email' => $employee->email,
-                'password' => '123456',  // Default password
-                'password_confirmation' => '123456',  // Confirm the password
+                'password' => '123456',
+                'password_confirmation' => '123456',
             ]);
 
             if ($response->successful()) {
