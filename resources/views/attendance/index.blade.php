@@ -78,7 +78,17 @@
                                 <td>{{ $attendance->schedule->name ?? '-' }}</td>
                                 <td>{{ $attendance->time }}</td>
                                 <td>
-                                    <span class="badge badge-secondary">{{ $attendance->status }}</span>
+                                    @php
+                                        switch($attendance->status) {
+                                            case 'Hadir': $badge = 'success'; break;
+                                            case 'Sakit': $badge = 'info'; break;
+                                            case 'Izin': $badge = 'warning'; break;
+                                            case 'Terlambat': $badge = 'primary'; break;
+                                            case 'Alpha': $badge = 'danger'; break;
+                                            default: $badge = 'secondary'; break;
+                                        }
+                                    @endphp
+                                    <span class="badge badge-{{ $badge }}">{{ $attendance->status }}</span>
                                     
                                     {{-- Tombol Edit --}}
                                     <a href="{{ route('attendance.edit', $attendance->id) }}" class="btn btn-sm btn-warning ml-2">
