@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\Category;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
@@ -21,26 +22,46 @@ class AttendanceController extends Controller
     // }
     public function index(Request $request)
     {
-        $query = Attendance::with(['employee.category', 'schedule']);
+        // Mendapatkan user yang sedang autentikasi
+        $user = auth()->user();
 
+        // Pastikan user ada
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'User not authenticated');
+        }
+
+        Log::info('Current Auth User:', ['user' => $user->toArray()]);
+
+        // Query Attendance dan memfilter berdasarkan user_id
+        $query = Attendance::with(['employee.category', 'schedule'])
+            ->whereHas('employee', function ($query) use ($user) {
+                // Pastikan employee yang terkait dengan user yang login
+                $query->where('user_id', $user->id);
+            });
+
+        // Filter berdasarkan kategori jika ada
         if ($request->filled('category_id')) {
             $query->whereHas('employee', function ($q) use ($request) {
                 $q->where('category_id', $request->category_id);
             });
         }
 
+        // Filter berdasarkan employee jika ada
         if ($request->filled('employee_id')) {
             $query->where('employee_id', $request->employee_id);
         }
 
+        // Filter berdasarkan tanggal jika ada
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $query->whereBetween('date', [$request->date_from, $request->date_to]);
         }
 
+        // Ambil data attendance yang sudah difilter
         $attendances = $query->orderBy('date', 'desc')->orderBy('time', 'desc')->paginate(10);
 
+        // Ambil kategori dan karyawan untuk filter dropdown
         $categories = Category::all();
-        $employees = Employee::all();
+        $employees = Employee::where('user_id', $user->id)->get(); // Ambil employee berdasarkan user_id yang sedang login
 
         return view('attendance.index', compact('attendances', 'categories', 'employees'));
     }

@@ -35,7 +35,12 @@
                         <div class="pro-head">
                             <img src="{{ asset('assets/images/user/avatar.jpg')}}" class="img-radius"
                                 alt="User-Profile-Image">
-                            <span>{{ auth()->user()->name }}</span>
+                            <!-- Cek jika pengguna terautentikasi -->
+                            @auth
+                                <span>{{ auth()->user()->name }}</span>
+                            @else
+                                <span>Guest</span>
+                            @endauth
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>

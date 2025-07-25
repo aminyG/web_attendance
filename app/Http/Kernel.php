@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // 'role' => \Spatie\Permission\Middleware\RoleMiddleware::class, // Pastikan middleware role sudah terdaftar
         'role' => RoleMiddleware::class,
+        'auth.token' => \App\Http\Middleware\AuthenticateWithToken::class,
     ];
 }

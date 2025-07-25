@@ -34,7 +34,8 @@ class EmployeeImport implements ToModel, WithHeadingRow
             'email' => $row['email'],
             'employee_number' => $row['employee_number'],
             // 'photo' => $photoPath,
-            'password' => Hash::make('123456')
+            'password' => Hash::make('123456'),
+            'user_id' => auth()->user()->id,
         ]);
     }
 

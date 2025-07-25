@@ -42,11 +42,9 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
 });
 
 // ADMIN ONLY
-// Route::middleware(['auth', 'role:admin'])->group(function () {
+// Route::middleware(['auth', 'role:admin', 'auth.token'])->group(function () {
     // Admin dashboard
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-
-    // Profile
 
     // Employee
     Route::get('/karyawan', [EmployeeController::class, 'index'])->name('employee.index');

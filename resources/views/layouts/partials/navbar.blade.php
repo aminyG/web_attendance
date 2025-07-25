@@ -1,13 +1,25 @@
 <nav class="pcoded-navbar menu-light">
     <div class="navbar-wrapper">
         <div class="navbar-content scroll-div">
-            <div class="main-menu-header">
+            {{-- <div class="main-menu-header">
                 <img class="img-radius" src="{{ asset('assets/images/user/avatar.jpg')}}" alt="User-Profile-Image">
                 <div class="user-details">
                     <div id="more-details">{{ auth()->user()->name }} <i class="fa fa-caret-down"></i></div>
                 </div>
+            </div> --}}
+            <div class="main-menu-header">
+                <!-- Cek apakah pengguna terautentikasi -->
+                @auth
+                    <img class="img-radius" src="{{ asset('assets/images/user/avatar.jpg') }}" alt="User-Profile-Image">
+                    <div class="user-details">
+                        <!-- Menampilkan nama pengguna -->
+                        <div id="more-details">{{ auth()->user()->name }} <i class="fa fa-caret-down"></i></div>
+                    </div>
+                @else
+                    <!-- Jika pengguna tidak terautentikasi -->
+                    <div id="more-details">Guest <i class="fa fa-caret-down"></i></div>
+                @endauth
             </div>
-
             <div class="collapse" id="nav-user-link">
                 <ul class="list-unstyled">
                     <li class="list-group-item">
@@ -27,7 +39,6 @@
                     <label>Navigation</label>
                 </li>
 
-                {{-- Check if the user is a Super Admin --}}
                 @if(auth()->user()?->hasRole('super-admin'))
                     <li class="nav-item {{ Request::is('/') || Request::is('dashboard*') ? 'active' : '' }}">
                         <a href="{{ route('superadmin.dashboard') }}" class="nav-link">
@@ -36,7 +47,6 @@
                         </a>
                     </li>
                 @else
-                    {{-- If not super-admin, show admin menu --}}
                     <li class="nav-item {{ Request::is('/') || Request::is('dashboard*') ? 'active' : '' }}">
                         <a href="{{ url('/') }}" class="nav-link">
                             <span class="pcoded-micon"><i class="feather icon-home"></i></span>

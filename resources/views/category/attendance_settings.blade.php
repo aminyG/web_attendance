@@ -32,6 +32,9 @@
                         </thead>
                         <tbody>
                             @foreach($categories as $index => $category)
+                                @php
+                                    // Log::info('Category in Blade:', ['category' => $category->toArray()]);
+                                @endphp
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $category->name }}</td>
@@ -42,6 +45,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                     {{--
