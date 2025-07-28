@@ -60,7 +60,7 @@ public function store(Request $request)
 
     // 8️⃣ Redirect dengan flash message
     return redirect()->route('superadmin.dashboard')
-        ->with('success', "Admin berhasil dibuat.\nEmail: {$validated['email']}\nPassword: {$passwordPlain}\n(PASSWORD JUGA DIKIRIM KE EMAIL ADMIN)");
+        ->with('success', "Admin berhasil dibuat.\nEmail: {$validated['email']}\nPassword: {$passwordPlain}");
 }
 
 public function destroy(User $user)

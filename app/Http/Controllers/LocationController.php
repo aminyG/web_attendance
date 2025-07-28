@@ -15,22 +15,17 @@ class LocationController extends Controller
     // }
     public function index()
 {
-    // Mendapatkan user yang sedang autentikasi
     $user = auth()->user();
 
-    // Pastikan user ada dan terautentikasi
     if (!$user) {
         Log::error('User tidak terautentikasi.');
         return redirect()->route('login')->with('error', 'User not authenticated');
     }
 
-    // Log informasi user yang sedang autentikasi
     Log::info('User yang mengakses daftar lokasi:', ['user' => $user->toArray()]);
 
-    // Ambil lokasi berdasarkan user yang sedang autentikasi
     $locations = Location::where('user_id', $user->id)->paginate(10);
 
-    // Log hasil lokasi yang ditemukan untuk user
     Log::info('Lokasi yang ditemukan untuk user ini:', ['locations' => $locations->toArray()]);
 
     return view('locations.index', compact('locations'));
@@ -70,6 +65,8 @@ class LocationController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'radius' => $request->radius,
+            'user_id' => auth()->id(),
+            'is_active' => false,
         ]);
 
         return redirect()->route('locations.index')->with('success', 'Lokasi berhasil ditambahkan');
@@ -103,10 +100,9 @@ class LocationController extends Controller
     public function setActive(Location $location)
     {
         Log::info("SetActive dipanggil untuk ID: {$location->id}");
-        // Set semua jadi non-aktif
+
         Location::where('is_active', true)->update(['is_active' => false]);
 
-        // Set yang dipilih jadi aktif
         $location->update(['is_active' => true]);
 
         return redirect()->route('locations.index')->with('success', 'Lokasi berhasil diaktifkan');

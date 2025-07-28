@@ -11,20 +11,30 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeImport implements ToModel, WithHeadingRow
 {
-    // Fungsi utama untuk mendownload dan menyimpan data
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
+
     public function model(array $row)
     {
-        // Proses kategori
-        $category = Category::firstOrCreate(['name' => $row['category']]);
+        Log::info('Processing row:', $row);
 
-        // Mendownload foto dari Google Drive dan simpan ke server
-        // $photoUrl = $this->convertGoogleDriveToDirectLink($row['photo_url']);
-        // $photoPath = $this->downloadAndSaveImage($photoUrl);
+        $category = Category::where('name', $row['category'])
+                            ->where('user_id', $this->userId)
+                            ->first();
 
-        // Menyimpan data karyawan ke database
+        if (!$category) {
+            Log::error('Category not found for employee: ' . $row['name']);
+            return null;
+        }
+
         return new Employee([
             'name' => $row['name'],
             'category_id' => $category->id,
@@ -33,11 +43,11 @@ class EmployeeImport implements ToModel, WithHeadingRow
             'phone' => (string) $row['phone'],
             'email' => $row['email'],
             'employee_number' => $row['employee_number'],
-            // 'photo' => $photoPath,
             'password' => Hash::make('123456'),
-            'user_id' => auth()->user()->id,
+            'user_id' => $this->userId,
         ]);
     }
+
 
     // private function convertGoogleDriveToDirectLink($url)
     // {

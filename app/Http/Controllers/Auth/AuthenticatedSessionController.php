@@ -33,23 +33,23 @@ class AuthenticatedSessionController extends Controller
     //     /** @var \App\Models\User $user */
     //     $user = Auth::user();
 
-        // Check if the user is impersonating another user
-        // if (session()->has('impersonate')) {
-        //     // Impersonate the Admin user
-        //     $impersonateUserId = session('impersonate');
-        //     $impersonatedUser = \App\Models\User::find($impersonateUserId);
+    //     // Check if the user is impersonating another user
+    //     if (session()->has('impersonate')) {
+    //         // Impersonate the Admin user
+    //         $impersonateUserId = session('impersonate');
+    //         $impersonatedUser = \App\Models\User::find($impersonateUserId);
             
-        //     // Temporarily use the impersonated user's role
-        //     Auth::onceUsingId($impersonatedUser->id);
+    //         // Temporarily use the impersonated user's role
+    //         Auth::onceUsingId($impersonatedUser->id);
 
-        //     // Store that the user is impersonating
-        //     session()->put('impersonating', true);
+    //         // Store that the user is impersonating
+    //         session()->put('impersonating', true);
 
-        //     // Redirect to the Admin dashboard
-        //     return redirect('/dashboard');
-        // }
+    //         // Redirect to the Admin dashboard
+    //         return redirect('/dashboard');
+    //     }
 
-        // Regular role-based redirection
+    //     // Regular role-based redirection
     //     if ($user && $user->hasRole('super-admin')) {
     //         return redirect('/superadmin/dashboard');
     //     }

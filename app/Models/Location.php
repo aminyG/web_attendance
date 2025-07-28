@@ -15,5 +15,6 @@ class Location extends Model
         'longitude',
         'radius',
         'is_active',
+        'user_id',
     ];
 }

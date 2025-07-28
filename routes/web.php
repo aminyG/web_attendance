@@ -43,10 +43,8 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
 
 // ADMIN ONLY
 // Route::middleware(['auth', 'role:admin', 'auth.token'])->group(function () {
-    // Admin dashboard
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    // Employee
     Route::get('/karyawan', [EmployeeController::class, 'index'])->name('employee.index');
     Route::get('/karyawan/create', [EmployeeController::class, 'create'])->name('employee.create');
     Route::post('/karyawan/store', [EmployeeController::class, 'storeIndividual'])->name('employee.store');
@@ -56,25 +54,22 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     Route::delete('/karyawan/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     Route::put('/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');
 
-    // Attendance
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance/{id}/edit', [AttendanceController::class, 'edit'])->name('attendance.edit');
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 
-
-    // Categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::post('/categories/update', [CategoryController::class, 'update'])->name('categories.update');
+    Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/attendance-settings', [CategoryController::class, 'showAttendanceSettings'])->name('categories.attendanceSettings');
     Route::post('/categories/update-attendance', [CategoryController::class, 'updateAttendance'])->name('categories.updateAttendance');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-    // Schedules
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedule.store');
     Route::post('/schedule/storeAll', [ScheduleController::class, 'storeAll'])->name('schedule.storeAll');
     Route::delete('/schedule/delete/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 
-    // Locations
     Route::resource('locations', LocationController::class);
     Route::post('/locations/{location}/set-active', [LocationController::class, 'setActive'])->name('locations.setActive');
     Route::get('/locations/{location}/edit', [LocationController::class, 'edit'])->name('locations.edit');

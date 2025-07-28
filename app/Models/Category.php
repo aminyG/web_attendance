@@ -9,7 +9,7 @@ class Category extends Model
 {
     protected $keyType = 'string';
     public $incrementing = false;
-   protected $fillable = ['name', 'required_attendance_per_day', 'user_id']; 
+   protected $fillable = ['name', 'required_attendance_per_day', 'user_id', 'server_id']; 
    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
