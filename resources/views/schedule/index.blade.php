@@ -29,12 +29,6 @@
                         </a>
                     </li>
                 @endforeach
-                <!-- Tab untuk Semua Kategori -->
-                {{-- <li class="nav-item">
-                    <a class="nav-link" id="tab-all" data-toggle="tab" href="#cat-all" role="tab">
-                        Semua Kategori
-                    </a>
-                </li> --}}
             </ul>
 
             <div class="tab-content" id="categoryTabsContent">
@@ -61,6 +55,15 @@
                                     <input type="number" name="order" class="form-control" placeholder="Urutan (optional)">
                                 </div>
                                 <div class="col">
+                                    <!-- Dropdown untuk memilih lokasi -->
+                                    <select name="location_id" class="form-control" required>
+                                        <option value="">Pilih Lokasi</option>
+                                        @foreach($locations as $location)
+                                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
                                     <button type="submit" class="btn btn-success btn-block">Tambah</button>
                                 </div>
                             </div>
@@ -74,6 +77,7 @@
                                         <th>Mulai</th>
                                         <th>Selesai</th>
                                         <th>Urutan</th>
+                                        <th>Lokasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -84,6 +88,7 @@
                                             <td>{{ $s->start_time }}</td>
                                             <td>{{ $s->end_time }}</td>
                                             <td>{{ $s->order }}</td>
+                                            <td>{{ $s->location ? $s->location->name : 'Tidak ada lokasi' }}</td>
                                             <td>
                                                 <form action="{{ route('schedule.destroy', $s->id) }}" method="POST"
                                                     onsubmit="return confirm('Yakin hapus jadwal ini?')">
@@ -101,69 +106,6 @@
                         @endif
                     </div>
                 @endforeach
-
-                <!-- Tab untuk Semua Kategori -->
-                <div class="tab-pane fade" id="cat-all" role="tabpanel">
-                    <h4 class="mb-3">Semua Kategori</h4>
-
-                    <!-- Form untuk Menambahkan Jadwal ke Semua Kategori -->
-                    <form action="{{ route('schedule.storeAll') }}" method="POST" class="mb-3">
-                        @csrf
-                        <div class="form-row">
-                            <div class="col">
-                                <input type="text" name="name" class="form-control" placeholder="Nama Jadwal (cth: Masuk)"
-                                    required>
-                            </div>
-                            <div class="col">
-                                <input type="time" name="start_time" class="form-control" required>
-                            </div>
-                            <div class="col">
-                                <input type="time" name="end_time" class="form-control" required>
-                            </div>
-                            <div class="col">
-                                <input type="number" name="order" class="form-control" placeholder="Urutan (optional)">
-                            </div>
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary btn-block">Setel ke Semua Kategori</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Tampilkan Jadwal Global (Untuk Semua Kategori) -->
-                    @if($allSchedules->count())
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Mulai</th>
-                                    <th>Selesai</th>
-                                    <th>Urutan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($allSchedules as $s)
-                                    <tr>
-                                        <td>{{ $s->name }}</td>
-                                        <td>{{ $s->start_time }}</td>
-                                        <td>{{ $s->end_time }}</td>
-                                        <td>{{ $s->order }}</td>
-                                        <td>
-                                            <form action="{{ route('schedule.destroy', $s->id) }}" method="POST"
-                                                onsubmit="return confirm('Yakin hapus jadwal ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger">Hapus</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @else
-                        <p class="text-muted">Belum ada jadwal untuk semua kategori.</p>
-                    @endif
-                </div>
             </div>
 
         </div>

@@ -61,7 +61,62 @@ class AuthenticatedSessionController extends Controller
     //     return redirect('/login');
     // }
 
-   public function store(Request $request)
+//    public function store(Request $request)
+//     {
+//         $request->validate([
+//             'email' => 'required|email',
+//             'password' => 'required|string',
+//         ]);
+
+//         // If the superadmin logs in manually
+//         if ($request->email == 'aminyghaisan11@gmail.com') {
+//             Auth::loginUsingId(2);  // Log in with the superadmin ID (e.g., ID 2)
+//             return redirect('/superadmin/dashboard');
+//         }
+
+//         // Login via API to get the token
+//         $response = Http::post('http://presence.guestallow.com/api/auth/login', [
+//             'email' => $request->email,
+//             'password' => $request->password,
+//         ]);
+
+//         // Check if login was successful via API
+//         if ($response->successful()) {
+//             // Get token from API response
+//             $token = $response->json()['token'];
+
+//             // Store token in the session for later API usage
+//             session(['api_token' => $token]);
+//             Log::info('Login Successful, Token:', ['token' => $token]);
+
+//             // Now authenticate the user locally (web)
+//             $user = \App\Models\User::where('email', $request->email)->first();
+
+//             if ($user) {
+//                 // Log the user into the Laravel session
+//                 Auth::login($user);
+
+//                 // Regenerate the session for security
+//                 $request->session()->regenerate();
+
+//                 // Check user role (you can customize this based on your needs)
+//                 if ($user->hasRole('admin')) {
+//                     return redirect('/dashboard');
+//                 }
+
+//                 return redirect('/'); // Default redirect if the user isn't an admin
+//             }
+
+//             // If the user doesn't exist, send back an error
+//             return back()->withErrors(['email' => 'Invalid credentials']);
+            
+//         } else {
+//             // Handle API login failure
+//             return back()->withErrors(['email' => 'Invalid credentials']);
+//         }
+//     }
+
+public function store(Request $request)
 {
     $request->validate([
         'email' => 'required|email',
@@ -89,13 +144,13 @@ class AuthenticatedSessionController extends Controller
         session(['api_token' => $token]);
         Log::info('Login Successful, Token:', ['token' => $token]);
 
-        // Now authenticate the user locally (web)
+        // Authenticate the user based on the API response (not using local database)
         $user = \App\Models\User::where('email', $request->email)->first();
 
         if ($user) {
-            // Log the user into the Laravel session
-            Auth::login($user);
-
+            // Since password is updated on the API, use the API token to log in the user
+            Auth::login($user);  // Log the user into Laravel's session
+            
             // Regenerate the session for security
             $request->session()->regenerate();
 
@@ -115,6 +170,7 @@ class AuthenticatedSessionController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials']);
     }
 }
+
 
 
     /**

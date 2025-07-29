@@ -66,9 +66,10 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedule.index');
-    Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedule.store');
-    Route::post('/schedule/storeAll', [ScheduleController::class, 'storeAll'])->name('schedule.storeAll');
-    Route::delete('/schedule/delete/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+    Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedule.store');
+    // Route::post('/schedules/storeAll', [ScheduleController::class, 'storeAll'])->name('schedule.storeAll');
+    Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+    
 
     Route::resource('locations', LocationController::class);
     Route::post('/locations/{location}/set-active', [LocationController::class, 'setActive'])->name('locations.setActive');

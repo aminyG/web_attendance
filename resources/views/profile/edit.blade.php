@@ -22,7 +22,7 @@
             @endif
 
             <!-- Form Update Profile -->
-            <form action="{{ route('profile.update') }}" method="POST" class="mb-3 p-3 rounded"
+            {{-- <form action="{{ route('profile.update') }}" method="POST" class="mb-3 p-3 rounded"
                 style="background-color: #f8f9fa;">
                 @csrf
                 @method('PUT')
@@ -44,7 +44,27 @@
                 <div class="mt-3">
                     <button type="submit" class="btn btn-sm btn-primary">Update Profil</button>
                 </div>
+            </form> --}}
+            <form action="{{ route('profile.update') }}" method="POST" class="mb-3 p-3 rounded"
+                style="background-color: #f8f9fa;">
+                @csrf
+                @method('PUT')
+
+                <div class="row">
+                    <div class="col">
+                        <label for="name" class="small mb-1">Nama</label>
+                        <input type="text" class="form-control form-control-sm" id="name" name="name"
+                            value="{{ old('name', $user->name) }}" readonly>
+                    </div>
+
+                    <div class="col">
+                        <label for="email" class="small mb-1">Email</label>
+                        <input type="email" class="form-control form-control-sm" id="email" name="email"
+                            value="{{ old('email', $user->email) }}" readonly>
+                    </div>
+                </div>
             </form>
+
 
             <hr>
 
@@ -71,7 +91,7 @@
                     @error('password_confirmation') <div class="text-red-500">{{ $message }}</div> @enderror
                 </div>
 
-                <button type="submit" class="btn btn-warning">Update Password</button>
+                <button type="submit" class="btn btn-primary mb-3">Update Password</button>
             </form>
 
 

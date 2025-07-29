@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
         Log::info('Categories found for user:', ['categories' => $categories->toArray()]);
 
-        return view('category.attendance_settings', compact('categories'));
+        return view('category.index', compact('categories'));
     }
     public function update(Request $request, $id)
     {

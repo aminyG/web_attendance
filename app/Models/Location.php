@@ -17,4 +17,12 @@ class Location extends Model
         'is_active',
         'user_id',
     ];
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
