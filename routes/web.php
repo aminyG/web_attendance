@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:super-admin'])->prefix('superadmin')->group(fun
     
 
     Route::resource('locations', LocationController::class);
-    Route::post('/locations/{location}/set-active', [LocationController::class, 'setActive'])->name('locations.setActive');
+    // Route::post('/locations/{location}/set-active', [LocationController::class, 'setActive'])->name('locations.setActive');
     Route::get('/locations/{location}/edit', [LocationController::class, 'edit'])->name('locations.edit');
     Route::put('/locations/{location}', [LocationController::class, 'update'])->name('locations.update');
 // });

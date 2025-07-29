@@ -14,7 +14,6 @@ class Location extends Model
         'latitude',
         'longitude',
         'radius',
-        'is_active',
         'user_id',
     ];
     public function schedules()

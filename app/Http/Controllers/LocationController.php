@@ -66,7 +66,6 @@ class LocationController extends Controller
             'longitude' => $request->longitude,
             'radius' => $request->radius,
             'user_id' => auth()->id(),
-            'is_active' => false,
         ]);
 
         return redirect()->route('locations.index')->with('success', 'Lokasi berhasil ditambahkan');
@@ -97,15 +96,15 @@ class LocationController extends Controller
         $location->delete();
         return redirect()->route('locations.index')->with('success', 'Lokasi berhasil dihapus');
     }
-    public function setActive(Location $location)
-    {
-        Log::info("SetActive dipanggil untuk ID: {$location->id}");
+    // public function setActive(Location $location)
+    // {
+    //     Log::info("SetActive dipanggil untuk ID: {$location->id}");
 
-        Location::where('is_active', true)->update(['is_active' => false]);
+    //     Location::where('is_active', true)->update(['is_active' => false]);
 
-        $location->update(['is_active' => true]);
+    //     $location->update(['is_active' => true]);
 
-        return redirect()->route('locations.index')->with('success', 'Lokasi berhasil diaktifkan');
-    }
+    //     return redirect()->route('locations.index')->with('success', 'Lokasi berhasil diaktifkan');
+    // }
 
 }
